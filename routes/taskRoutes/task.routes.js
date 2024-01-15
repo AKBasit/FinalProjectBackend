@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Task = require("../../models/Task.model.js");
 const isAuth = require("../../middlewares/isAuthenticated.middleware.js");
+
 //a Get route for all the todos
 router.get("/allTasks", async (req, res) => {
   const currentUserId = req.headers.currentuser;
@@ -13,7 +14,7 @@ router.get("/allTasks", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-//a post route for creating a new todo
+
 //a post route for creating a new todo
 router.post("/createTask", async (req, res) => {
   try {

@@ -4,9 +4,10 @@ const User = require("../../models/User.model");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const saltRounds = 12;
+
 router.post("/signup", async (req, res) => {
   try {
-    const { username, email, password, phoneNumber } = req.body;
+    const { username, email, password } = req.body;
     const dataCheck = await User.findOne({ email });
     if (!dataCheck) {
       const salt = await bcrypt.genSalt(saltRounds);
@@ -17,7 +18,6 @@ router.post("/signup", async (req, res) => {
         username,
         email,
         password: hashPass,
-        phoneNumber,
       });
       await user.save();
       res.status(201).json({ message: "user created" });
