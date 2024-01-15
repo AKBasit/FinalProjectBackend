@@ -22,11 +22,6 @@ const userSchema = new Schema(
       required: [true, "Password is required."],
       trim: true,
     },
-    phoneNumber: {
-      type: Number,
-      required: [true, "Phone number is required"],
-      unique: true,
-    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

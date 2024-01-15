@@ -13,7 +13,7 @@ router.get("/allTasks", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-//a post route for creating a new todo
+
 //a post route for creating a new todo
 router.post("/createTask", async (req, res) => {
   try {
