@@ -1,7 +1,5 @@
 const router = require("express").Router();
+const Webdesign = require("../models/Webdesign.model")
 
-router.get("/", (req, res, next) => {
-  res.json("All good in here");
-});
 
 module.exports = router;

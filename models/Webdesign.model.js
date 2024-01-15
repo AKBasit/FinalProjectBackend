@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const taskSchema = new Schema(
+const webdesignSchema = new Schema(
   {
     owner: {
       type: Schema.Types.ObjectId,
@@ -10,17 +10,17 @@ const taskSchema = new Schema(
     },
     name: {
       type: String,
-      required: [true, "task name is required"],
+      required: [true, "web design name is required"],
       trim: true,
+    },
+    Image: {
+      type: String,
+      required: [true, "web design image is required"],
     },
     description: {
       type: String,
-      required: [true, "description is required"],
+      required: [true, "web design description is required"],
       trim: true,
-    },
-    done: {
-      type: Boolean,
-      default: false,
     },
   },
   {
@@ -29,6 +29,6 @@ const taskSchema = new Schema(
   }
 );
 
-const Task = model("Task", taskSchema);
+const Webdesign = model("Webdesign", webdesignSchema);
 
-module.exports = Task;
+module.exports = Webdesign;
