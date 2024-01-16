@@ -36,10 +36,10 @@ router.post("/createfont", async (req, res, next) => {
 // Read
 
 router.get("/:id", async (req, res) => {
-  const currentUserId = req.headers.currentuser;
   try {
-    const response = await Font.findById({ owner: currentUserId }).populate("owner");
-    console.log("here is the font", response);
+    const fontId = req.params.id;
+    const response = await Font.findById(fontId);
+    console.log("here is the Font", response);
     res.json({
       status: 200,
       msg: "Font retreived",
@@ -49,7 +49,7 @@ router.get("/:id", async (req, res) => {
     console.error(error);
     res.json({
       status: 400,
-      msg: "Something is wrong with reading the font",
+      msg: "Something is wrong with the Font",
     });
   }
 });

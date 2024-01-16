@@ -39,7 +39,7 @@ router.get("/:id", async (req, res) => {
   try {
     const webDesignId = req.params.id;
     const response = await Webdesign.findById(webDesignId);
-    console.log("here in the all web designs", response);
+    console.log("here is the web design", response);
     res.json({
       status: 200,
       msg: "Webdesign retreived",

@@ -36,9 +36,9 @@ router.post("/createImage", async (req, res, next) => {
 // Read
 
 router.get("/:id", async (req, res) => {
-  const currentUserId = req.headers.currentuser;
   try {
-    const response = await Image.find({ owner: currentUserId }).populate("owner");
+    const imageId = req.params.id;
+    const response = await Image.findById(imageId);
     console.log("here is the Image", response);
     res.json({
       status: 200,
@@ -49,10 +49,11 @@ router.get("/:id", async (req, res) => {
     console.error(error);
     res.json({
       status: 400,
-      msg: "Something is wrong with reading the Image",
+      msg: "Something is wrong with the Image",
     });
   }
 });
+
 
 // Update
 
