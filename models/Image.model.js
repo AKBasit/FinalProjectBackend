@@ -14,7 +14,7 @@ const imageSchema = new Schema(
       trim: true,
     },
     image: {
-      type: Image,
+      type: String,
       required: [true, "Image is required"],
     },
     description: {

@@ -14,7 +14,7 @@ const fontSchema = new Schema(
       trim: true,
     },
     image: {
-      type: Image,
+      type: String,
       required: [true, "font image is required"],
     },
     description: {

@@ -6,16 +6,16 @@ const webdesignSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      //required: true,//
     },
     name: {
       type: String,
       required: [true, "web design name is required"],
       trim: true,
     },
-    Image: {
+    image: {
       type: String,
-      required: [true, "web design image is required"],
+      //required: [true, "web design image is required"],//
     },
     description: {
       type: String,
