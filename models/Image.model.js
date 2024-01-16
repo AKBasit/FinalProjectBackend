@@ -17,9 +17,9 @@ const imageSchema = new Schema(
       type: String,
       required: [true, "Image is required"],
     },
-    description: {
+    contributor: {
       type: String,
-      required: [true, "Image description is required"],
+      required: [true, "Image contributor is required"],
       trim: true,
     },
   },
@@ -29,6 +29,6 @@ const imageSchema = new Schema(
   }
 );
 
-const Image = model("mage", imageSchema);
+const Image = model("Image", imageSchema);
 
 module.exports = Image;

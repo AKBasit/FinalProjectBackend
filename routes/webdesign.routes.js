@@ -11,7 +11,7 @@ router.get("/allWebdesigns", async (req, res) => {
     res.status(200).json(Webdesigns);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error with the web design" });
   }
 });
 
@@ -36,9 +36,9 @@ router.post("/createWebdesign", async (req, res, next) => {
 // Read
 
 router.get("/:id", async (req, res) => {
-  const currentUserId = req.headers.currentuser;
   try {
-    const response = await Webdesign.find({ owner: currentUserId }).populate("owner");
+    const webDesignId = req.params.id;
+    const response = await Webdesign.findById(webDesignId);
     console.log("here in the all web designs", response);
     res.json({
       status: 200,
@@ -49,7 +49,7 @@ router.get("/:id", async (req, res) => {
     console.error(error);
     res.json({
       status: 400,
-      msg: "Something is wrong",
+      msg: "Something is wrong with the web design",
     });
   }
 });
@@ -67,7 +67,7 @@ router.put("/updateWebdesign/:id", async (req, res, next) => {
   } catch (err) {
     res.json({
       status: 400,
-      msg: "Something is wrong with the update",
+      msg: "Error updating Webdesign",
     })
   }
 })
@@ -85,7 +85,7 @@ router.delete("/deleteWebdesign/:id", async (req, res, next) => {
   } catch (err) {
     res.json({
       status: 400,
-      msg: "Something is wrong with the delete",
+      msg: "Deleting Webdesign failed",
     })
   }
 })

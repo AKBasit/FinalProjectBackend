@@ -3,11 +3,11 @@ const { Schema, model } = require("mongoose");
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const fontSchema = new Schema(
   {
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    // owner: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
     name: {
       type: String,
       required: [true, "font name is required"],
@@ -15,11 +15,11 @@ const fontSchema = new Schema(
     },
     image: {
       type: String,
-      required: [true, "font image is required"],
+      //required: [true, "font image is required"],//
     },
-    description: {
+    license: {
       type: String,
-      required: [true, "font description is required"],
+      required: [true, "font license is required"],
       trim: true,
     },
   },

@@ -25,6 +25,14 @@ app.use("/auth", authRoutes);
 const webdesignRoutes = require("./routes/webdesign.routes");
 app.use("/webdesigns", webdesignRoutes);
 
+// font routes here
+const fontRoutes = require("./routes/font.routes");
+app.use("/fonts", fontRoutes);
+
+// image routes here
+const imageRoutes = require("./routes/image.routes");
+app.use("/images", imageRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
