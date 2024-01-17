@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const imageSchema = new Schema(
+const taskSchema = new Schema(
   {
     owner: {
       type: Schema.Types.ObjectId,
@@ -10,19 +10,17 @@ const imageSchema = new Schema(
     },
     name: {
       type: String,
-      required: [true, "Image name is required"],
+      required: [true, "task name is required"],
       trim: true,
     },
-    image: {
-      local: {
-        data: Buffer, // If storing local image as binary data
-        contentType: String,
-      },
-    },
-    contributor: {
+    description: {
       type: String,
-      required: [true, "Image contributor is required"],
+      required: [true, "description is required"],
       trim: true,
+    },
+    done: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -31,6 +29,6 @@ const imageSchema = new Schema(
   }
 );
 
-const Image = model("Image", imageSchema);
+const Task = model("Task", taskSchema);
 
-module.exports = Image;
+module.exports = Task;

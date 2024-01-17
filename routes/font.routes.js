@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Font = require("../models/Font.model.js")
+const Font = require("../models/Font.model.js");
 
 // GET route for all the Fonts
 
@@ -17,21 +17,21 @@ router.get("/allFonts", async (req, res) => {
 
 // Create
 
-router.post("/createfont", async (req, res, next) => {
+router.post("/createFont", async (req, res, next) => {
   try {
     const response = await Font.create(req.body);
     res.json({
       status: 200,
-      msg: "Font created successfully"
-    })
+      msg: "Font created successfully",
+    });
   } catch (err) {
     console.log(err);
     res.json({
       status: 400,
-      msg: "Font was not created successfully"
+      msg: "Font was not created successfully",
     });
   }
-})
+});
 
 // Read
 
@@ -44,7 +44,7 @@ router.get("/:id", async (req, res) => {
       status: 200,
       msg: "Font retreived",
       data: response,
-    })
+    });
   } catch (error) {
     console.error(error);
     res.json({
@@ -63,14 +63,14 @@ router.put("/updateFont/:id", async (req, res, next) => {
       status: 200,
       msg: "Font updated successfully",
       data: response,
-    })
+    });
   } catch (err) {
     res.json({
       status: 400,
       msg: "Error updating font",
-    })
+    });
   }
-})
+});
 
 // Delete
 
@@ -81,13 +81,13 @@ router.delete("/deleteFont/:id", async (req, res, next) => {
       status: 200,
       msg: "Font has been deleted successfully",
       data: response,
-    })
+    });
   } catch (err) {
     res.json({
       status: 400,
       msg: "Deleting Font failed",
-    })
+    });
   }
-})
+});
 
 module.exports = router;

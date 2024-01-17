@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Image = require("../models/Image.model.js")
+const Image = require("../models/Image.model.js");
 
 // GET route for all the Images
 
@@ -22,16 +22,16 @@ router.post("/createImage", async (req, res, next) => {
     const response = await Image.create(req.body);
     res.json({
       status: 200,
-      msg: "Image created successfully"
-    })
+      msg: "Image created successfully",
+    });
   } catch (err) {
     console.log(err);
     res.json({
       status: 400,
-      msg: "Image was not created successfully"
+      msg: "Image was not created successfully",
     });
   }
-})
+});
 
 // Read
 
@@ -44,7 +44,7 @@ router.get("/:id", async (req, res) => {
       status: 200,
       msg: "Image retreived",
       data: response,
-    })
+    });
   } catch (error) {
     console.error(error);
     res.json({
@@ -53,7 +53,6 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
-
 
 // Update
 
@@ -64,14 +63,14 @@ router.put("/updateImage/:id", async (req, res, next) => {
       status: 200,
       msg: "Image updated successfully",
       data: response,
-    })
+    });
   } catch (err) {
     res.json({
       status: 400,
       msg: "Error updating Image",
-    })
+    });
   }
-})
+});
 
 // Delete
 
@@ -82,13 +81,13 @@ router.delete("/deleteImage/:id", async (req, res, next) => {
       status: 200,
       msg: "Image has been deleted successfully",
       data: response,
-    })
+    });
   } catch (err) {
     res.json({
       status: 400,
       msg: "Deleting Image failed",
-    })
+    });
   }
-})
+});
 
 module.exports = router;
