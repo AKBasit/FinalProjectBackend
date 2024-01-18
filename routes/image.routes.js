@@ -3,7 +3,7 @@ const Image = require("../models/Image.model.js");
 
 // GET route for all the Images
 
-router.get("/allImages", async (req, res) => {
+router.get("/userImages", async (req, res) => {
   const currentUserId = req.headers.currentuser;
   try {
     const images = await Image.find({ owner: currentUserId }).populate("owner");
@@ -30,6 +30,18 @@ router.post("/createImage", async (req, res, next) => {
       status: 400,
       msg: "Image was not created successfully",
     });
+  }
+});
+
+// GET all images
+router.get("/databaseImages", async (req, res) => {
+  try {
+    const images = await Image.find({ shared: true }).populate("owner");
+    console.log("All images", images);
+    res.status(200).json(images);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error with the images" });
   }
 });
 
@@ -71,6 +83,11 @@ router.put("/updateImage/:id", async (req, res, next) => {
     });
   }
 });
+
+// Update the image libary, use the update method and change syntax
+router.put("/shared", async(req, res, next) => {
+
+})
 
 // Delete
 

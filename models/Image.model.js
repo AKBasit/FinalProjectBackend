@@ -21,9 +21,11 @@ const imageSchema = new Schema(
     },
     contributor: {
       type: String,
-      required: [true, "Image contributor is required"],
+      // required: [true, "Image contributor is required"],
       trim: true,
     },
+    shared: {type: Boolean,
+    default: false,}
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
