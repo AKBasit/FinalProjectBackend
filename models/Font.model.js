@@ -13,9 +13,9 @@ const fontSchema = new Schema(
       required: [true, "font name is required"],
       trim: true,
     },
-    image: {
+    imageUrl: {
       type: String,
-      //required: [true, "font image is required"],//
+      required: [true, "web design image is required"], //
     },
     license: {
       type: String,
