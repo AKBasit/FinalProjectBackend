@@ -13,9 +13,9 @@ const webdesignSchema = new Schema(
       required: [true, "web design name is required"],
       trim: true,
     },
-    image: {
+    imageUrl: {
       type: String,
-      //required: [true, "web design image is required"],//
+      required: [true, "web design image is required"], //
     },
     description: {
       type: String,
