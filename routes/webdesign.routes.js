@@ -6,7 +6,6 @@ const fileUploader = require("../config/cloudinary.config");
 router.get("/", async (req, res) => {
   try {
     const webdesigns = await Webdesign.find({ shared: true }).populate("owner");
-    console.log("All webdesigns", webdesigns);
     res.status(200).json(webdesigns);
   } catch (error) {
     console.error(error);
@@ -22,7 +21,6 @@ router.get("/user", async (req, res) => {
     const Webdesigns = await Webdesign.find({ owner: currentUserId }).populate(
       "owner"
     );
-    console.log("Users web designs", Webdesigns);
     res.status(200).json(Webdesigns);
   } catch (error) {
     console.error(error);
@@ -36,13 +34,12 @@ router.post(
   "/upload",
   fileUploader.single("imageUrl"),
   async (req, res, next) => {
-    console.log("file is: ", req.file);
-    console.log(req.body);
-    console.log(req.file);
-
     if (!req.file) {
       next(new Error("No web design file uploaded!"));
-      return;
+      res.json({
+        status: 400,
+        msg: "Webdesign was not created successfully to the upload",
+      });
     }
     res.json({ fileUrl: req.file.path });
     try {
@@ -51,21 +48,16 @@ router.post(
         status: 200,
         msg: "Webdesign created successfully",
       });
-    } catch (err) {
-      console.log(err);
-      res.json({
-        status: 400,
-        msg: "Webdesign was not created successfully to the upload",
-      });
-    }
+    } catch (err) {}
   }
 );
 
 //  Add uploaded Web design to database
 router.post("/", async (req, res) => {
+  console.log(req.files);
+  console.log(req.body);
   try {
     const createWebdesign = await Webdesign.create(req.body);
-    // console.log('Created new webdesign: ', createWebdesign);
     res.status(200).json(createWebdesign);
   } catch (err) {
     console.error(err);
@@ -82,7 +74,6 @@ router.get("/:id", async (req, res) => {
   try {
     const webDesignId = req.params.id;
     const response = await Webdesign.findById(webDesignId);
-    console.log("here is the web design", response);
     res.json({
       status: 200,
       msg: "Webdesign retreived",
