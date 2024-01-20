@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Image = require("../models/Image.model.js");
-
+const fileUploader = require("../config/cloudinary.config");
 
 // GET all images
 router.get("/", async (req, res) => {
@@ -28,19 +28,46 @@ router.get("/user", async (req, res) => {
   }
 });
 
-// Create
+// Create uploader for images
 
-router.post("/", async (req, res, next) => {
+router.post(
+  "/upload",
+  fileUploader.single("imageUrl"),
+  async (req, res, next) => {
+    console.log("file is: ", req.file);
+    console.log(req.body);
+    console.log(req.file);
 
+    if (!req.file) {
+      next(new Error("No image file uploaded!"));
+      return;
+    }
+    res.json({ fileUrl: req.file.path });
+    try {
+      const response = await Image.create(req.body);
+      res.json({
+        status: 200,
+        msg: "Image created successfully",
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 400,
+        msg: "Image was not created successfully to the upload",
+      });
+    }
+  }
+);
+
+//  Add uploaded Image to database
+router.post("/", async (req, res) => {
   try {
-    const response = await Image.create(req.body);
-    res.json({
-      status: 200,
-      msg: "Image created successfully",
-    });
+    const createImage = await Image.create(req.body);
+    // console.log('Created new Image: ', createImage);
+    res.status(200).json(createImage);
   } catch (err) {
-    console.log(err);
-    res.json({
+    console.error(err);
+    res.status(400).json({
       status: 400,
       msg: "Image was not created successfully",
     });
@@ -89,7 +116,19 @@ router.put("/:id", async (req, res, next) => {
 
 // Update the image libary, use the update method and change syntax
 router.put("/shared/:id", async(req, res, next) => {
-
+  try {
+    const response = await Image.findByIdAndUpdate(req.params.id, req.body)
+    res.json({
+      status: 200,
+      msg: "Image updated successfully",
+      data: response,
+    });
+  } catch (err) {
+    res.json({
+      status: 400,
+      msg: "Error updating Image",
+    });
+  }
 })
 
 // Delete

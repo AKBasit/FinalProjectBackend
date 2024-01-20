@@ -30,7 +30,7 @@ router.get("/user", async (req, res) => {
   }
 });
 
-// Create uploader
+// Create uploader for web designs
 
 router.post(
   "/upload",
@@ -41,7 +41,7 @@ router.post(
     console.log(req.file);
 
     if (!req.file) {
-      next(new Error("No file uploaded!"));
+      next(new Error("No web design file uploaded!"));
       return;
     }
     res.json({ fileUrl: req.file.path });
@@ -55,13 +55,13 @@ router.post(
       console.log(err);
       res.json({
         status: 400,
-        msg: "Webdesign was not created successfully",
+        msg: "Webdesign was not created successfully to the upload",
       });
     }
   }
 );
 
-//  Add uploaded to database
+//  Add uploaded Web design to database
 router.post("/", async (req, res) => {
   try {
     const createWebdesign = await Webdesign.create(req.body);

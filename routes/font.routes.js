@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Font = require("../models/Font.model.js");
+const fileUploader = require("../config/cloudinary.config");
+
 
 // GET all fonts
 router.get("/", async (req, res) => {
@@ -27,18 +29,46 @@ router.get("/user", async (req, res) => {
   }
 });
 
-// Create
+// Create uploader for Fonts
 
-router.post("/", async (req, res, next) => {
+router.post(
+  "/upload",
+  fileUploader.single("imageUrl"),
+  async (req, res, next) => {
+    console.log("file is: ", req.file);
+    console.log(req.body);
+    console.log(req.file);
+
+    if (!req.file) {
+      next(new Error("No Fonts file uploaded!"));
+      return;
+    }
+    res.json({ fileUrl: req.file.path });
+    try {
+      const response = await Font.create(req.body);
+      res.json({
+        status: 200,
+        msg: "Font created successfully",
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 400,
+        msg: "Font was not created successfully to the upload",
+      });
+    }
+  }
+);
+
+//  Add uploaded Font to database
+router.post("/", async (req, res) => {
   try {
-    const response = await Font.create(req.body);
-    res.json({
-      status: 200,
-      msg: "Font created successfully",
-    });
+    const createFont = await Font.create(req.body);
+    // console.log('Created new Font: ', createFont);
+    res.status(200).json(createFont);
   } catch (err) {
-    console.log(err);
-    res.json({
+    console.error(err);
+    res.status(400).json({
       status: 400,
       msg: "Font was not created successfully",
     });
