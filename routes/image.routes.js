@@ -34,13 +34,12 @@ router.post(
   "/upload",
   fileUploader.single("imageUrl"),
   async (req, res, next) => {
-    console.log("file is: ", req.file);
-    console.log(req.body);
-    console.log(req.file);
-
     if (!req.file) {
-      next(new Error("No image file uploaded!"));
-      return;
+      next(new Error("No image uploaded!"));
+      res.json({
+        status: 400,
+        msg: "Image was not created successfully to the upload",
+      });
     }
     res.json({ fileUrl: req.file.path });
     try {
@@ -49,21 +48,16 @@ router.post(
         status: 200,
         msg: "Image created successfully",
       });
-    } catch (err) {
-      console.log(err);
-      res.json({
-        status: 400,
-        msg: "Image was not created successfully to the upload",
-      });
-    }
+    } catch (err) {}
   }
 );
 
 //  Add uploaded Image to database
 router.post("/", async (req, res) => {
+  console.log(req.files);
+  console.log(req.body);
   try {
     const createImage = await Image.create(req.body);
-    // console.log('Created new Image: ', createImage);
     res.status(200).json(createImage);
   } catch (err) {
     console.error(err);
@@ -73,7 +67,6 @@ router.post("/", async (req, res) => {
     });
   }
 });
-
 
 // Read
 
@@ -115,9 +108,9 @@ router.put("/:id", async (req, res, next) => {
 });
 
 // Update the image libary, use the update method and change syntax
-router.put("/shared/:id", async(req, res, next) => {
+router.put("/shared/:id", async (req, res, next) => {
   try {
-    const response = await Image.findByIdAndUpdate(req.params.id, req.body)
+    const response = await Image.findByIdAndUpdate(req.params.id, req.body);
     res.json({
       status: 200,
       msg: "Image updated successfully",
@@ -129,7 +122,7 @@ router.put("/shared/:id", async(req, res, next) => {
       msg: "Error updating Image",
     });
   }
-})
+});
 
 // Delete
 
