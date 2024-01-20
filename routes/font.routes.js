@@ -1,9 +1,21 @@
 const router = require("express").Router();
 const Font = require("../models/Font.model.js");
 
-// GET route for all the Fonts
+// GET all fonts
+router.get("/", async (req, res) => {
+  try {
+    const fonts = await Font.find({ shared: true }).populate("owner");
+    console.log("All fonts", fonts);
+    res.status(200).json(fonts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error with the fonts" });
+  }
+});
 
-router.get("/allFonts", async (req, res) => {
+// GET route for all the user Fonts
+
+router.get("/user", async (req, res) => {
   const currentUserId = req.headers.currentuser;
   try {
     const fonts = await Font.find({ owner: currentUserId }).populate("owner");
@@ -17,7 +29,7 @@ router.get("/allFonts", async (req, res) => {
 
 // Create
 
-router.post("/createFont", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const response = await Font.create(req.body);
     res.json({
@@ -56,7 +68,7 @@ router.get("/:id", async (req, res) => {
 
 // Update
 
-router.put("/updateFont/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const response = await Font.findByIdAndUpdate(req.params.id, req.body);
     res.json({
@@ -74,7 +86,7 @@ router.put("/updateFont/:id", async (req, res, next) => {
 
 // Delete
 
-router.delete("/deleteFont/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const response = await Font.findByIdAndDelete(req.params.id);
     res.json({

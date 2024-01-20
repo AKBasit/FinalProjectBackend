@@ -1,9 +1,22 @@
 const router = require("express").Router();
 const Webdesign = require("../models/Webdesign.model.js")
 
-// GET route for all the Webdesigns
+// GET all webdesigns
+router.get("/", async (req, res) => {
+  try {
+    const webdesigns = await Webdesign.find({ shared: true }).populate("owner");
+    console.log("All webdesigns", webdesigns);
+    res.status(200).json(webdesigns);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error with the webdesigns" });
+  }
+});
 
-router.get("/allWebdesigns", async (req, res) => {
+
+// GET route for all the  user Webdesigns
+
+router.get("/user", async (req, res) => {
   const currentUserId = req.headers.currentuser;
   try {
     const Webdesigns = await Webdesign.find({ owner: currentUserId }).populate("owner");
@@ -17,7 +30,7 @@ router.get("/allWebdesigns", async (req, res) => {
 
 // Create
 
-router.post("/createWebdesign", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const response = await Webdesign.create(req.body);
     res.json({
@@ -56,7 +69,7 @@ router.get("/:id", async (req, res) => {
 
 // Update
 
-router.put("/updateWebdesign/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const response = await Webdesign.findByIdAndUpdate(req.params.id, req.body);
     res.json({
@@ -74,7 +87,7 @@ router.put("/updateWebdesign/:id", async (req, res, next) => {
 
 // Delete
 
-router.delete("/deleteWebdesign/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const response = await Webdesign.findByIdAndDelete(req.params.id);
     res.json({

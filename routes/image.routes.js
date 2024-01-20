@@ -1,9 +1,22 @@
 const router = require("express").Router();
 const Image = require("../models/Image.model.js");
 
-// GET route for all the Images
 
-router.get("/userImages", async (req, res) => {
+// GET all images
+router.get("/", async (req, res) => {
+  try {
+    const images = await Image.find({ shared: true }).populate("owner");
+    console.log("All images", images);
+    res.status(200).json(images);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error with the images" });
+  }
+});
+
+// GET route for all the user Images
+
+router.get("/user", async (req, res) => {
   const currentUserId = req.headers.currentuser;
   try {
     const images = await Image.find({ owner: currentUserId }).populate("owner");
@@ -17,7 +30,8 @@ router.get("/userImages", async (req, res) => {
 
 // Create
 
-router.post("/createImage", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
+
   try {
     const response = await Image.create(req.body);
     res.json({
@@ -33,17 +47,6 @@ router.post("/createImage", async (req, res, next) => {
   }
 });
 
-// GET all images
-router.get("/databaseImages", async (req, res) => {
-  try {
-    const images = await Image.find({ shared: true }).populate("owner");
-    console.log("All images", images);
-    res.status(200).json(images);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error with the images" });
-  }
-});
 
 // Read
 
@@ -68,7 +71,7 @@ router.get("/:id", async (req, res) => {
 
 // Update
 
-router.put("/updateImage/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const response = await Image.findByIdAndUpdate(req.params.id, req.body);
     res.json({
@@ -85,13 +88,13 @@ router.put("/updateImage/:id", async (req, res, next) => {
 });
 
 // Update the image libary, use the update method and change syntax
-router.put("/shared", async(req, res, next) => {
+router.put("/shared/:id", async(req, res, next) => {
 
 })
 
 // Delete
 
-router.delete("/deleteImage/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const response = await Image.findByIdAndDelete(req.params.id);
     res.json({
