@@ -89,9 +89,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update
-
-router.put("/:id", async (req, res, next) => {
+// Update the image libary, use the update method and change syntax
+router.put("/shared/:id", async (req, res, next) => {
   try {
     const response = await Image.findByIdAndUpdate(req.params.id, req.body);
     res.json({
@@ -107,8 +106,9 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-// Update the image libary, use the update method and change syntax
-router.put("/shared/:id", async (req, res, next) => {
+// Update
+
+router.put("/:id", async (req, res, next) => {
   try {
     const response = await Image.findByIdAndUpdate(req.params.id, req.body);
     res.json({

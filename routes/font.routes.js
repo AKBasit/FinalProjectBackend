@@ -89,6 +89,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.put("/shared/:id", async (req, res, next) => {
+  try {
+    const response = await Font.findByIdAndUpdate(req.params.id, req.body);
+    res.json({
+      status: 200,
+      msg: "Font updated successfully",
+      data: response,
+    });
+  } catch (err) {
+    res.json({
+      status: 400,
+      msg: "Error updating Font",
+    });
+  }
+});
+
 // Update
 
 router.put("/:id", async (req, res, next) => {

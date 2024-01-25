@@ -74,6 +74,7 @@ router.get("/:id", async (req, res) => {
   try {
     const webDesignId = req.params.id;
     const response = await Webdesign.findById(webDesignId);
+    console.log("here is the Webdesign", response);
     res.json({
       status: 200,
       msg: "Webdesign retreived",
@@ -84,6 +85,22 @@ router.get("/:id", async (req, res) => {
     res.json({
       status: 400,
       msg: "Something is wrong with the web design",
+    });
+  }
+});
+
+router.put("/shared/:id", async (req, res, next) => {
+  try {
+    const response = await Webdesign.findByIdAndUpdate(req.params.id, req.body);
+    res.json({
+      status: 200,
+      msg: "Webdesign updated successfully",
+      data: response,
+    });
+  } catch (err) {
+    res.json({
+      status: 400,
+      msg: "Error updating Webdesign",
     });
   }
 });
