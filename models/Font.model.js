@@ -22,6 +22,7 @@ const fontSchema = new Schema(
       required: [true, "font license is required"],
       trim: true,
     },
+    shared: { type: Boolean, default: false },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

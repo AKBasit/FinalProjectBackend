@@ -100,7 +100,7 @@ router.put("/shared/:id", async (req, res, next) => {
   } catch (err) {
     res.json({
       status: 400,
-      msg: "Error updating Webdesign",
+      msg: "Error updating Webdesign shared",
     });
   }
 });
@@ -113,7 +113,7 @@ router.put("/:id", async (req, res, next) => {
     res.json({
       status: 200,
       msg: "Webdesign updated successfully",
-      data: response,
+      data: 0,
     });
   } catch (err) {
     res.json({
