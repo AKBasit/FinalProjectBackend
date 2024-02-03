@@ -3,31 +3,42 @@ const bcrypt = require("bcrypt");
 const User = require("../../models/User.model");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const saltRounds = 12;
+const saltRounds = 10;
 
-router.post("/signup", async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-    const dataCheck = await User.findOne({ email });
-    if (!dataCheck) {
-      const salt = await bcrypt.genSalt(saltRounds);
-      const hashPass = await bcrypt.hash(password, salt);
-      console.log(hashPass);
+router.post("/signup", (req, res, next) => {
+  const { email, password, username } = req.body;
 
-      const user = new User({
-        username,
-        email,
-        password: hashPass,
-      });
-      await user.save();
-      res.status(201).json({ message: "user created" });
-      console.log(`new user ${username}`);
-    } else {
-      res.json({ message: "user already exists " });
-    }
-  } catch (err) {
-    res.status(500).json({ errorMessage: err });
+  // Check if email or password or name are provided as empty strings
+  if (email === "" || password === "" || username === "") {
+    res.status(400).json({ message: "Provide email, password and name" });
+    return;
   }
+  User.findOne({ email })
+    .then((foundUser) => {
+      // If the user with the same email already exists, send an error response
+      if (foundUser) {
+        res.status(400).json({ message: "User already exists." });
+        return;
+      }
+
+      // If email is unique, proceed to hash the password
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hashedPassword = bcrypt.hashSync(password, salt);
+
+      // Create the new user in the database
+      // We return a pending promise, which allows us to chain another `then`
+      return User.create({ email, password: hashedPassword, username });
+    })
+    .then((createdUser) => {
+      const { email, username, _id } = createdUser;
+
+      // Create a new object that doesn't expose the password
+      const user = { email, username, _id };
+
+      // Send a json response containing the user object
+      res.status(201).json({ user: user });
+    })
+    .catch((err) => next(err)); // error handling middleware.
 });
 
 router.post("/login", async (req, res, next) => {
