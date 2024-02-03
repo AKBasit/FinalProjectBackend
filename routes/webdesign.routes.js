@@ -18,9 +18,11 @@ router.get("/", async (req, res) => {
 router.get("/user", async (req, res) => {
   const currentUserId = req.headers.currentuser;
   try {
-    const Webdesigns = await Webdesign.find({ owner: currentUserId }).populate(
-      "owner"
-    );
+    console.log("Found user", currentUserId);
+    const Webdesigns = await Webdesign.find({
+      owner: currentUserId,
+    }).populate("owner");
+    console.log(Webdesigns);
     res.status(200).json(Webdesigns);
   } catch (error) {
     console.error(error);
