@@ -50,7 +50,9 @@ router.post(
         status: 200,
         msg: "Webdesign created successfully",
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
